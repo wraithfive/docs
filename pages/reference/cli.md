@@ -4,15 +4,47 @@ This tool allows you to interact with the resin.io api from the comfort of your 
 
 Please make sure your system meets the requirements as specified in the [README](https://github.com/resin-io/resin-cli).
 
-To get started download the CLI from npm.
+## Install the CLI
 
-	$ npm install resin-cli -g
+### Npm install
 
-Then authenticate yourself:
+The best supported way to install the CLI is from npm:
+
+	$ npm install resin-cli -g --production --unsafe-perm
+
+`--unsafe-perm` is only required on systems where the global install directory is not user-writable.
+This allows npm install steps to download and save prebuilt native binaries. You may be able to omit it,
+especially if you're using a user-managed node install such as [nvm](https://github.com/creationix/nvm).
+
+### Standalone install
+
+Alternatively, if you don't have a node or pre-gyp environment, you can still install the CLI as a standalone
+binary. **This is in experimental and may not work perfectly yet in all environments**, but works well in
+initial cross-platform testing, so it may be useful, and we'd love your feedback if you hit any issues.
+
+To install the CLI as a standalone binary:
+
+* Download the latest zip for your OS from https://github.com/resin-io/resin-cli/releases.
+* Extract the contents, putting the `resin-cli` folder somewhere appropriate for your system (e.g. `C:/resin-cli`, `/usr/local/lib/resin-cli`, etc).
+* Add the `resin-cli` folder to your `PATH`. (
+[Windows instructions](https://www.computerhope.com/issues/ch000549.htm),
+[Linux instructions](https://stackoverflow.com/questions/14637979/how-to-permanently-set-path-on-linux-unix),
+[OSX instructions](https://stackoverflow.com/questions/22465332/setting-path-environment-variable-in-osx-permanently))
+* Running `resin` in a fresh command line should print the resin CLI help.
+
+To update in future, simply download a new release and replace the extracted folder.
+
+Have any problems, or see any unexpected behaviour? Please file an issue!
+
+## Getting started
+
+Once you have the CLI installed, you'll need to log in, so it can access everything in your resin.io account.
+
+To authenticate yourself, run:
 
 	$ resin login
 
-Now you have access to all the commands referenced below.
+You now have access to all the commands referenced below.
 
 ## Proxy support
 
@@ -32,11 +64,11 @@ environment variable (in the same standard URL format).
 
 - Application
 
-	- [app create &#60;name&#62;](#app-create-60-name-62-)
+	- [app create &#60;name&#62;](#app-create-name)
 	- [apps](#apps)
-	- [app &#60;name&#62;](#app-60-name-62-)
-	- [app restart &#60;name&#62;](#app-restart-60-name-62-)
-	- [app rm &#60;name&#62;](#app-rm-60-name-62-)
+	- [app &#60;name&#62;](#app-name)
+	- [app restart &#60;name&#62;](#app-restart-name)
+	- [app rm &#60;name&#62;](#app-rm-name)
 
 - Authentication
 
@@ -48,31 +80,31 @@ environment variable (in the same standard URL format).
 - Device
 
 	- [devices](#devices)
-	- [device &#60;uuid&#62;](#device-60-uuid-62-)
+	- [device &#60;uuid&#62;](#device-uuid)
 	- [devices supported](#devices-supported)
-	- [device register &#60;application&#62;](#device-register-60-application-62-)
-	- [device rm &#60;uuid&#62;](#device-rm-60-uuid-62-)
-	- [device identify &#60;uuid&#62;](#device-identify-60-uuid-62-)
-	- [device reboot &#60;uuid&#62;](#device-reboot-60-uuid-62-)
-	- [device shutdown &#60;uuid&#62;](#device-shutdown-60-uuid-62-)
-	- [device public-url enable &#60;uuid&#62;](#device-public-url-enable-60-uuid-62-)
-	- [device public-url disable &#60;uuid&#62;](#device-public-url-disable-60-uuid-62-)
-	- [device public-url &#60;uuid&#62;](#device-public-url-60-uuid-62-)
-	- [device public-url status &#60;uuid&#62;](#device-public-url-status-60-uuid-62-)
-	- [device rename &#60;uuid&#62; [newName]](#device-rename-60-uuid-62-newname-)
-	- [device move &#60;uuid&#62;](#device-move-60-uuid-62-)
+	- [device register &#60;application&#62;](#device-register-application)
+	- [device rm &#60;uuid&#62;](#device-rm-uuid)
+	- [device identify &#60;uuid&#62;](#device-identify-uuid)
+	- [device reboot &#60;uuid&#62;](#device-reboot-uuid)
+	- [device shutdown &#60;uuid&#62;](#device-shutdown-uuid)
+	- [device public-url enable &#60;uuid&#62;](#device-public-url-enable-uuid)
+	- [device public-url disable &#60;uuid&#62;](#device-public-url-disable-uuid)
+	- [device public-url &#60;uuid&#62;](#device-public-url-uuid)
+	- [device public-url status &#60;uuid&#62;](#device-public-url-status-uuid)
+	- [device rename &#60;uuid&#62; [newName]](#device-rename-uuid--newname)
+	- [device move &#60;uuid&#62;](#device-move-uuid)
 	- [device init](#device-init)
 
 - Environment Variables
 
 	- [envs](#envs)
-	- [env rm &#60;id&#62;](#env-rm-60-id-62-)
-	- [env add &#60;key&#62; [value]](#env-add-60-key-62-value-)
-	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-60-id-62-60-value-62-)
+	- [env rm &#60;id&#62;](#env-rm-id)
+	- [env add &#60;key&#62; [value]](#env-add-key--value)
+	- [env rename &#60;id&#62; &#60;value&#62;](#env-rename-id--value)
 
 - Help
 
-	- [help [command...]](#help-command-)
+	- [help [command...]](#help-command)
 
 - Information
 
@@ -81,45 +113,45 @@ environment variable (in the same standard URL format).
 - Keys
 
 	- [keys](#keys)
-	- [key &#60;id&#62;](#key-60-id-62-)
-	- [key rm &#60;id&#62;](#key-rm-60-id-62-)
-	- [key add &#60;name&#62; [path]](#key-add-60-name-62-path-)
+	- [key &#60;id&#62;](#key-id)
+	- [key rm &#60;id&#62;](#key-rm-id)
+	- [key add &#60;name&#62; [path]](#key-add-name--path)
 
 - Logs
 
-	- [logs &#60;uuid&#62;](#logs-60-uuid-62-)
+	- [logs &#60;uuid&#62;](#logs-uuid)
 
 - Sync
 
-	- [sync [uuid]](#sync-uuid-)
+	- [sync [uuid]](#sync-uuid)
 
 - SSH
 
-	- [ssh [uuid]](#ssh-uuid-)
+	- [ssh [uuid]](#ssh-uuid)
 
 - Notes
 
-	- [note &#60;|note&#62;](#note-60-note-62-)
+	- [note &#60;|note&#62;](#note-note)
 
 - OS
 
-	- [os versions &#60;type&#62;](#os-versions-60-type-62-)
-	- [os download &#60;type&#62;](#os-download-60-type-62-)
-	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-60-image-62-60-device-type-62-)
-	- [os configure &#60;image&#62; [uuid] [deviceApiKey]](#os-configure-60-image-62-uuid-deviceapikey-)
-	- [os initialize &#60;image&#62;](#os-initialize-60-image-62-)
+	- [os versions &#60;type&#62;](#os-versions-type)
+	- [os download &#60;type&#62;](#os-download-type)
+	- [os build-config &#60;image&#62; &#60;device-type&#62;](#os-build-config-image--device-type)
+	- [os configure &#60;image&#62; [uuid] [deviceApiKey]](#os-configure-image--uuid--deviceapikey)
+	- [os initialize &#60;image&#62;](#os-initialize-image)
 
 - Config
 
 	- [config read](#config-read)
-	- [config write &#60;key&#62; &#60;value&#62;](#config-write-60-key-62-60-value-62-)
-	- [config inject &#60;file&#62;](#config-inject-60-file-62-)
+	- [config write &#60;key&#62; &#60;value&#62;](#config-write-key--value)
+	- [config inject &#60;file&#62;](#config-inject-file)
 	- [config reconfigure](#config-reconfigure)
 	- [config generate](#config-generate)
 
 - Preload
 
-	- [preload &#60;image&#62;](#preload-60-image-62-)
+	- [preload &#60;image&#62;](#preload-image)
 
 - Settings
 
@@ -127,22 +159,22 @@ environment variable (in the same standard URL format).
 
 - Wizard
 
-	- [quickstart [name]](#quickstart-name-)
+	- [quickstart [name]](#quickstart-name)
 
 - Local
 
-	- [local configure &#60;target&#62;](#local-configure-60-target-62-)
-	- [local flash &#60;image&#62;](#local-flash-60-image-62-)
-	- [local logs [deviceIp]](#local-logs-deviceip-)
+	- [local configure &#60;target&#62;](#local-configure-target)
+	- [local flash &#60;image&#62;](#local-flash-image)
+	- [local logs [deviceIp]](#local-logs-deviceip)
 	- [local scan](#local-scan)
-	- [local ssh [deviceIp]](#local-ssh-deviceip-)
-	- [local push [deviceIp]](#local-push-deviceip-)
-	- [local stop [deviceIp]](#local-stop-deviceip-)
+	- [local ssh [deviceIp]](#local-ssh-deviceip)
+	- [local push [deviceIp]](#local-push-deviceip)
+	- [local stop [deviceIp]](#local-stop-deviceip)
 
 - Deploy
 
-	- [build [source]](#build-source-)
-	- [deploy &#60;appName&#62; [image]](#deploy-60-appname-62-image-)
+	- [build [source]](#build-source)
+	- [deploy &#60;appName&#62; [image]](#deploy-appname--image)
 
 - Utilities
 
@@ -150,7 +182,7 @@ environment variable (in the same standard URL format).
 
 # Application
 
-## app create &#60;name&#62;
+## <a name="#app-create-name"></a>app create &#60;name&#62;
 
 Use this command to create a new resin.io application.
 
@@ -172,7 +204,7 @@ Examples:
 
 application device type (Check available types with `resin devices supported`)
 
-## apps
+## <a name="#apps"></a>apps
 
 Use this command to list all your applications.
 
@@ -183,7 +215,7 @@ Examples:
 
 	$ resin apps
 
-## app &#60;name&#62;
+## <a name="#app-name"></a>app &#60;name&#62;
 
 Use this command to show detailed information for a single application.
 
@@ -191,7 +223,7 @@ Examples:
 
 	$ resin app MyApp
 
-## app restart &#60;name&#62;
+## <a name="#app-restart-name"></a>app restart &#60;name&#62;
 
 Use this command to restart all devices that belongs to a certain application.
 
@@ -199,7 +231,7 @@ Examples:
 
 	$ resin app restart MyApp
 
-## app rm &#60;name&#62;
+## <a name="#app-rm-name"></a>app rm &#60;name&#62;
 
 Use this command to remove a resin.io application.
 
@@ -219,7 +251,7 @@ confirm non interactively
 
 # Authentication
 
-## login
+## <a name="#login"></a>login
 
 Use this command to login to your resin.io account.
 
@@ -262,7 +294,7 @@ email
 
 password
 
-## logout
+## <a name="#logout"></a>logout
 
 Use this command to logout from your resin.io account.o
 
@@ -270,7 +302,7 @@ Examples:
 
 	$ resin logout
 
-## signup
+## <a name="#signup"></a>signup
 
 Use this command to signup for a resin.io account.
 
@@ -285,7 +317,7 @@ Examples:
 	$ resin whoami
 	johndoe
 
-## whoami
+## <a name="#whoami"></a>whoami
 
 Use this command to find out the current logged in username and email address.
 
@@ -295,7 +327,7 @@ Examples:
 
 # Device
 
-## devices
+## <a name="#devices"></a>devices
 
 Use this command to list all devices that belong to you.
 
@@ -314,7 +346,7 @@ Examples:
 
 application name
 
-## device &#60;uuid&#62;
+## <a name="#device-uuid"></a>device &#60;uuid&#62;
 
 Use this command to show information about a single device.
 
@@ -322,7 +354,7 @@ Examples:
 
 	$ resin device 7cf02a6
 
-## devices supported
+## <a name="#devices-supported"></a>devices supported
 
 Use this command to get the list of all supported devices
 
@@ -330,7 +362,7 @@ Examples:
 
 	$ resin devices supported
 
-## device register &#60;application&#62;
+## <a name="#device-register-application"></a>device register &#60;application&#62;
 
 Use this command to register a device to an application.
 
@@ -352,7 +384,7 @@ custom uuid
 
 custom device key - note that this is only supported on ResinOS 2.0.3+
 
-## device rm &#60;uuid&#62;
+## <a name="#device-rm-uuid"></a>device rm &#60;uuid&#62;
 
 Use this command to remove a device from resin.io.
 
@@ -370,7 +402,7 @@ Examples:
 
 confirm non interactively
 
-## device identify &#60;uuid&#62;
+## <a name="#device-identify-uuid"></a>device identify &#60;uuid&#62;
 
 Use this command to identify a device.
 
@@ -380,7 +412,7 @@ Examples:
 
 	$ resin device identify 23c73a1
 
-## device reboot &#60;uuid&#62;
+## <a name="#device-reboot-uuid"></a>device reboot &#60;uuid&#62;
 
 Use this command to remotely reboot a device
 
@@ -394,7 +426,7 @@ Examples:
 
 force action if the update lock is set
 
-## device shutdown &#60;uuid&#62;
+## <a name="#device-shutdown-uuid"></a>device shutdown &#60;uuid&#62;
 
 Use this command to remotely shutdown a device
 
@@ -408,7 +440,7 @@ Examples:
 
 force action if the update lock is set
 
-## device public-url enable &#60;uuid&#62;
+## <a name="#device-public-url-enable-uuid"></a>device public-url enable &#60;uuid&#62;
 
 Use this command to enable public URL for a device
 
@@ -416,7 +448,7 @@ Examples:
 
 	$ resin device public-url enable 23c73a1
 
-## device public-url disable &#60;uuid&#62;
+## <a name="#device-public-url-disable-uuid"></a>device public-url disable &#60;uuid&#62;
 
 Use this command to disable public URL for a device
 
@@ -424,7 +456,7 @@ Examples:
 
 	$ resin device public-url disable 23c73a1
 
-## device public-url &#60;uuid&#62;
+## <a name="#device-public-url-uuid"></a>device public-url &#60;uuid&#62;
 
 Use this command to get the public URL of a device
 
@@ -432,7 +464,7 @@ Examples:
 
 	$ resin device public-url 23c73a1
 
-## device public-url status &#60;uuid&#62;
+## <a name="#device-public-url-status-uuid"></a>device public-url status &#60;uuid&#62;
 
 Use this command to determine if public URL is enabled for a device
 
@@ -440,7 +472,7 @@ Examples:
 
 	$ resin device public-url status 23c73a1
 
-## device rename &#60;uuid&#62; [newName]
+## <a name="#device-rename-uuid--newname"></a>device rename &#60;uuid&#62; [newName]
 
 Use this command to rename a device.
 
@@ -451,7 +483,7 @@ Examples:
 	$ resin device rename 7cf02a6
 	$ resin device rename 7cf02a6 MyPi
 
-## device move &#60;uuid&#62;
+## <a name="#device-move-uuid"></a>device move &#60;uuid&#62;
 
 Use this command to move a device to another application you own.
 
@@ -468,7 +500,7 @@ Examples:
 
 application name
 
-## device init
+## <a name="#device-init"></a>device init
 
 Use this command to download the OS image of a certain application and write it to an SD Card.
 
@@ -512,7 +544,7 @@ path to the config JSON file, see `resin os build-config`
 
 # Environment Variables
 
-## envs
+## <a name="#envs"></a>envs
 
 Use this command to list all environment variables for
 a particular application or device.
@@ -541,7 +573,7 @@ device uuid
 
 show private environment variables
 
-## env rm &#60;id&#62;
+## <a name="#env-rm-id"></a>env rm &#60;id&#62;
 
 Use this command to remove an environment variable from an application.
 
@@ -568,7 +600,7 @@ confirm non interactively
 
 device
 
-## env add &#60;key&#62; [value]
+## <a name="#env-add-key--value"></a>env add &#60;key&#62; [value]
 
 Use this command to add an enviroment variable to an application.
 
@@ -597,7 +629,7 @@ application name
 
 device uuid
 
-## env rename &#60;id&#62; &#60;value&#62;
+## <a name="#env-rename-id--value"></a>env rename &#60;id&#62; &#60;value&#62;
 
 Use this command to rename an enviroment variable from an application.
 
@@ -616,7 +648,7 @@ device
 
 # Help
 
-## help [command...]
+## <a name="#help-command"></a>help [command...]
 
 Get detailed help for an specific command.
 
@@ -633,13 +665,13 @@ show additional commands
 
 # Information
 
-## version
+## <a name="#version"></a>version
 
 Display the Resin CLI version.
 
 # Keys
 
-## keys
+## <a name="#keys"></a>keys
 
 Use this command to list all your SSH keys.
 
@@ -647,7 +679,7 @@ Examples:
 
 	$ resin keys
 
-## key &#60;id&#62;
+## <a name="#key-id"></a>key &#60;id&#62;
 
 Use this command to show information about a single SSH key.
 
@@ -655,7 +687,7 @@ Examples:
 
 	$ resin key 17
 
-## key rm &#60;id&#62;
+## <a name="#key-rm-id"></a>key rm &#60;id&#62;
 
 Use this command to remove a SSH key from resin.io.
 
@@ -673,7 +705,7 @@ Examples:
 
 confirm non interactively
 
-## key add &#60;name&#62; [path]
+## <a name="#key-add-name--path"></a>key add &#60;name&#62; [path]
 
 Use this command to associate a new SSH key with your account.
 
@@ -687,7 +719,7 @@ Examples:
 
 # Logs
 
-## logs &#60;uuid&#62;
+## <a name="#logs-uuid"></a>logs &#60;uuid&#62;
 
 Use this command to show logs for a specific device.
 
@@ -712,7 +744,7 @@ continuously stream output
 
 # Sync
 
-## sync [uuid]
+## <a name="#sync-uuid"></a>sync [uuid]
 
 Warning: 'resin sync' requires an openssh-compatible client and 'rsync' to
 be correctly installed in your shell environment. For more information (including
@@ -793,7 +825,7 @@ increase verbosity
 
 # SSH
 
-## ssh [uuid]
+## <a name="#ssh-uuid"></a>ssh [uuid]
 
 Warning: 'resin ssh' requires an openssh-compatible client to be correctly
 installed in your shell environment. For more information (including Windows
@@ -830,7 +862,7 @@ don't use the proxy configuration for this connection. Only makes sense if you'v
 
 # Notes
 
-## note &#60;|note&#62;
+## <a name="#note-note"></a>note &#60;|note&#62;
 
 Use this command to set or update a device note.
 
@@ -851,7 +883,7 @@ device uuid
 
 # OS
 
-## os versions &#60;type&#62;
+## <a name="#os-versions-type"></a>os versions &#60;type&#62;
 
 Use this command to show the available resinOS versions for a certain device type.
 Check available types with `resin devices supported`
@@ -860,7 +892,7 @@ Example:
 
 	$ resin os versions raspberrypi3
 
-## os download &#60;type&#62;
+## <a name="#os-download-type"></a>os download &#60;type&#62;
 
 Use this command to download an unconfigured os image for a certain device type.
 Check available types with `resin devices supported`
@@ -895,7 +927,7 @@ or 'default' (excludes pre-releases if at least one stable version is available)
 or 'recommended' (excludes pre-releases, will fail if only pre-release versions are available),
 or 'menu' (will show the interactive menu)
 
-## os build-config &#60;image&#62; &#60;device-type&#62;
+## <a name="#os-build-config-image--device-type"></a>os build-config &#60;image&#62; &#60;device-type&#62;
 
 Use this command to prebuild the OS config once and skip the interactive part of `resin os configure`.
 
@@ -914,7 +946,7 @@ show advanced configuration options
 
 the path to the output JSON file
 
-## os configure &#60;image&#62; [uuid] [deviceApiKey]
+## <a name="#os-configure-image--uuid--deviceapikey"></a>os configure &#60;image&#62; [uuid] [deviceApiKey]
 
 Use this command to configure a previously downloaded operating system image for
 the specific device or for an application generally.
@@ -953,7 +985,7 @@ custom device key - note that this is only supported on ResinOS 2.0.3+
 
 path to the config JSON file, see `resin os build-config`
 
-## os initialize &#60;image&#62;
+## <a name="#os-initialize-image"></a>os initialize &#60;image&#62;
 
 Use this command to initialize a device with previously configured operating system image.
 
@@ -980,7 +1012,7 @@ the drive to write the image to, like `/dev/sdb` or `/dev/mmcblk0`. Careful with
 
 # Config
 
-## config read
+## <a name="#config-read"></a>config read
 
 Use this command to read the config.json file from the mounted filesystem (e.g. SD card) of a provisioned device"
 
@@ -999,7 +1031,7 @@ device type (Check available types with `resin devices supported`)
 
 drive
 
-## config write &#60;key&#62; &#60;value&#62;
+## <a name="#config-write-key--value"></a>config write &#60;key&#62; &#60;value&#62;
 
 Use this command to write the config.json file to the mounted filesystem (e.g. SD card) of a provisioned device
 
@@ -1019,7 +1051,7 @@ device type (Check available types with `resin devices supported`)
 
 drive
 
-## config inject &#60;file&#62;
+## <a name="#config-inject-file"></a>config inject &#60;file&#62;
 
 Use this command to inject a config.json file to the mounted filesystem
 (e.g. SD card or mounted resinOS image) of a provisioned device"
@@ -1039,7 +1071,7 @@ device type (Check available types with `resin devices supported`)
 
 drive
 
-## config reconfigure
+## <a name="#config-reconfigure"></a>config reconfigure
 
 Use this command to reconfigure a provisioned device
 
@@ -1063,7 +1095,7 @@ drive
 
 show advanced commands
 
-## config generate
+## <a name="#config-generate"></a>config generate
 
 Use this command to generate a config.json for a device or application.
 
@@ -1116,15 +1148,14 @@ how frequently (in minutes) to poll for application updates
 
 # Preload
 
-## preload &#60;image&#62;
+## <a name="#preload-image"></a>preload &#60;image&#62;
 
 Warning: "resin preload" requires Docker to be correctly installed in
 your shell environment. For more information (including Windows support)
 please check the README here: https://github.com/resin-io/resin-cli .
 
 Use this command to preload an application to a local disk image (or
-Edison zip archive) with a built commit from Resin.io.
-This can be used with cloud builds, or images deployed with resin deploy.
+Edison zip archive) with a built release from Resin.io.
 
 Examples:
   $ resin preload resin.img --app 1234 --commit e1f2592fc6ee949e68756d4f4a48e49bff8d72a0 --splash-image some-image.png
@@ -1138,7 +1169,7 @@ id of the application to preload
 
 #### --commit, -c &#60;hash&#62;
 
-a specific application commit to preload, use "latest" to specify the latest commit
+the commit hash for a specific application release to preload, use "latest" to specify the latest release
 (ignored if no appId is given)
 
 #### --splash-image, -s &#60;splashImage.png&#62;
@@ -1175,7 +1206,7 @@ Docker host TLS key file
 
 # Settings
 
-## settings
+## <a name="#settings"></a>settings
 
 Use this command to display detected settings
 
@@ -1185,7 +1216,7 @@ Examples:
 
 # Wizard
 
-## quickstart [name]
+## <a name="#quickstart-name"></a>quickstart [name]
 
 Use this command to run a friendly wizard to get started with resin.io.
 
@@ -1203,7 +1234,7 @@ Examples:
 
 # Local
 
-## local configure &#60;target&#62;
+## <a name="#local-configure-target"></a>local configure &#60;target&#62;
 
 Use this command to configure or reconfigure a resinOS drive or image.
 
@@ -1212,7 +1243,7 @@ Examples:
 	$ resin local configure /dev/sdc
 	$ resin local configure path/to/image.img
 
-## local flash &#60;image&#62;
+## <a name="#local-flash-image"></a>local flash &#60;image&#62;
 
 Use this command to flash a resinOS image to a drive.
 
@@ -1232,7 +1263,7 @@ confirm non-interactively
 
 drive
 
-## local logs [deviceIp]
+## <a name="#local-logs-deviceip"></a>local logs [deviceIp]
 
 
 Examples:
@@ -1253,7 +1284,7 @@ follow log
 
 name of container to get logs from
 
-## local scan
+## <a name="#local-scan"></a>local scan
 
 
 Examples:
@@ -1272,7 +1303,7 @@ Display full info
 
 Scan timeout in seconds
 
-## local ssh [deviceIp]
+## <a name="#local-ssh-deviceip"></a>local ssh [deviceIp]
 
 Warning: 'resin local ssh' requires an openssh-compatible client to be correctly
 installed in your shell environment. For more information (including Windows
@@ -1311,7 +1342,7 @@ name of container to access
 
 ssh port number (default: 22222)
 
-## local push [deviceIp]
+## <a name="#local-push-deviceip"></a>local push [deviceIp]
 
 Warning: 'resin local push' requires an openssh-compatible client and 'rsync' to
 be correctly installed in your shell environment. For more information (including
@@ -1408,7 +1439,7 @@ force a container build and run
 
 environment variable (e.g. --env 'ENV=value'). Multiple --env parameters are supported.
 
-## local stop [deviceIp]
+## <a name="#local-stop-deviceip"></a>local stop [deviceIp]
 
 
 Examples:
@@ -1431,13 +1462,20 @@ name of container to stop
 
 # Deploy
 
-## build [source]
+## <a name="#build-source"></a>build [source]
 
-Use this command to build a container with a provided docker daemon.
+Use this command to build an image or a complete multicontainer project
+with the provided docker daemon.
 
 You must provide either an application or a device-type/architecture
 pair to use the resin Dockerfile pre-processor
 (e.g. Dockerfile.template -> Dockerfile).
+
+This command will look into the given source directory (or the current working
+directory if one isn't specified) for a compose file. If one is found, this
+command will build each service defined in the compose file. If a compose file
+isn't found, the command will look for a Dockerfile, and if yet that isn't found,
+it will try to generate one.
 
 Examples:
 
@@ -1462,6 +1500,18 @@ The type of device this build is for
 
 The target resin.io application this build is for
 
+#### --projectName, -n &#60;projectName&#62;
+
+Specify an alternate project name; default is the directory name
+
+#### --emulated, -e
+
+Run an emulated build using Qemu
+
+#### --logs
+
+Display full log output
+
 #### --docker, -P &#60;docker&#62;
 
 Path to a local docker socket
@@ -1498,19 +1548,23 @@ Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple time
 
 Don't use docker layer caching when building
 
-#### --emulated, -e
-
-Run an emulated build using Qemu
-
 #### --squash
 
 Squash newly built layers into a single new layer
 
-## deploy &#60;appName&#62; [image]
+## <a name="#deploy-appname--image"></a>deploy &#60;appName&#62; [image]
 
-Use this command to deploy an image to an application, optionally building it first.
+Use this command to deploy an image or a complete multicontainer project
+to an application, optionally building it first.
 
 Usage: `deploy <appName> ([image] | --build [--source build-dir])`
+
+Unless an image is specified, this command will look into the current directory
+(or the one specified by --source) for a compose file. If one is found, this
+command will deploy each service defined in the compose file, building it first
+if an image for it doesn't exist. If a compose file isn't found, the command
+will look for a Dockerfile, and if yet that isn't found, it will try to
+generate one.
 
 To deploy to an app on which you're a collaborator, use
 `resin deploy <appOwnerUsername>/<appName>`.
@@ -1519,22 +1573,36 @@ Note: If building with this command, all options supported by `resin build`
 are also supported with this command.
 
 Examples:
+
+	$ resin deploy myApp
 	$ resin deploy myApp --build --source myBuildDir/
 	$ resin deploy myApp myApp/myImage
 
 ### Options
 
-#### --build, -b
-
-Build image then deploy
-
 #### --source, -s &#60;source&#62;
 
-The source directory to use when building the image
+Specify an alternate source directory; default is the working directory
+
+#### --build, -b
+
+Force a rebuild before deploy
 
 #### --nologupload
 
 Don't upload build logs to the dashboard with image (if building)
+
+#### --projectName, -n &#60;projectName&#62;
+
+Specify an alternate project name; default is the directory name
+
+#### --emulated, -e
+
+Run an emulated build using Qemu
+
+#### --logs
+
+Display full log output
 
 #### --docker, -P &#60;docker&#62;
 
@@ -1572,17 +1640,13 @@ Set a build-time variable (eg. "-B 'ARG=value'"). Can be specified multiple time
 
 Don't use docker layer caching when building
 
-#### --emulated, -e
-
-Run an emulated build using Qemu
-
 #### --squash
 
 Squash newly built layers into a single new layer
 
 # Utilities
 
-## util available-drives
+## <a name="#util-available-drives"></a>util available-drives
 
 Use this command to list your machine's drives usable for writing the OS image to.
 Skips the system drives.

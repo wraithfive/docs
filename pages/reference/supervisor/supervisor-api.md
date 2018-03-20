@@ -1,6 +1,6 @@
-# Interacting with the resin.io device supervisor
+# Interacting with the Resin Supervisor
 
-The device supervisor is resin.io's agent that runs on devices. Its main role is to ensure your app is running, and keep communications with the Resin API server.
+The Resin Supervisor is resin.io's agent that runs on devices. Its main role is to ensure your app is running, and keep communications with the Resin API server.
 
 The Supervisor itself has its own API, with means for user applications to communicate and execute some special actions that affect the host OS or the application itself. There are two main ways for the application to interact with the Supervisor: the update lockfile and the HTTP API.
 
@@ -108,7 +108,9 @@ $ curl -X POST --header "Content-Type:application/json" \
 
 ### POST /v1/reboot
 
-Reboots the device
+Reboots the device. This will first try to stop applications, and fail if there is an update lock.
+An optional "force" parameter in the body overrides the lock when true (and the lock can also be overridden from
+the dashboard).
 
 When successful, responds with 202 accepted and a JSON object:
 ```json
@@ -118,6 +120,9 @@ When successful, responds with 202 accepted and a JSON object:
 }
 ```
 (This is implemented in Go)
+
+#### Request body
+Can contain a `force` property, which if set to `true` will cause the update lock to be overridden.
 
 #### Examples:
 From the app on the device:
@@ -142,7 +147,9 @@ $ curl -X POST --header "Content-Type:application/json" \
 
 ### POST /v1/shutdown
 
-**Dangerous**. Shuts down the device.
+**Dangerous**. Shuts down the device. This will first try to stop applications, and fail if there is an update lock.
+An optional "force" parameter in the body overrides the lock when true (and the lock can also be overridden from
+the dashboard).
 
 When successful, responds with 202 accepted and a JSON object:
 ```json
@@ -152,6 +159,9 @@ When successful, responds with 202 accepted and a JSON object:
 }
 ```
 (This is implemented in Go)
+
+#### Request body
+Can contain a `force` property, which if set to `true` will cause the update lock to be overridden.
 
 #### Examples:
 From the app on the device:
